@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Project Details{% endblock %}
+
+{% block content %}
+<h1>Project Details</h1>
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Project Information</h5>
+        <p class="card-text"><strong>Address:</strong> {{ project.address }}</p>
+        <p class="card-text"><strong>kWh Consumption:</strong> {{ project.kWh_consumption }}</p>
+        <p class="card-text"><strong>Escalator:</strong> {{ project.escalator }}</p>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Utility Tariff</h5>
+        {% if proposal %}
+            <p class="card-text"><strong>ID:</strong> {{ proposal.utility_id }}</p>
+            <p class="card-text"><strong>Name:</strong> {{ proposal.tariff_name }}</p>
+            <p class="card-text"><strong>Pricing Matrix:</strong> {{ proposal.pricing_matrix }}</p>
+        {% else %}
+            <p class="card-text">No utility tariff information available.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% if proposal %}
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Additional Tariffs</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Tariff Name</th>
+                    <th scope="col">Start Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tariff in proposal.tariffs %}
+                    <tr>
+                        <td>{{ tariff.name }}</td>
+                        <td>{{ tariff.startdate|date:"Y-m-d" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
